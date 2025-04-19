@@ -12,24 +12,27 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 public class MainActivity extends AppCompatActivity {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
-        Button button = findViewById(R.id.button);
-        EditText editText = findViewById(R.id.editTextText);
+        EditText nameEditText = findViewById(R.id.nameEditText);
+        Button submitButton = findViewById(R.id.submitButton);
 
-        button.setOnClickListener(v -> {
-            Toast.makeText(this , (CharSequence) editText , Toast.LENGTH_SHORT).show();
+        submitButton.setOnClickListener(v -> {
+            String userName = nameEditText.getText().toString();
+            
+            if (userName.isEmpty()) {
+                showToast("Please enter your name");
+            } else {
+                showToast("Welcome, " + userName + "!");
+            }
         });
+    }
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+    private void showToast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 }
